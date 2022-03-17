@@ -8,7 +8,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 contract SimpleERC20 is ERC20, Ownable {
 
     using SafeMath for uint256;
-    uint private constant maxSupply = 1000000 * 10 ** decimals();
+    uint private constant maxSupply = 1000000 * 10 ** 18;
 
 
     constructor () ERC20("SimpleERC20", "SERC20"){}
@@ -22,15 +22,15 @@ contract SimpleERC20 is ERC20, Ownable {
         require(maxSupplyNotReached(msg.value), "Total Supply limit Reached");
         _mint(reciever, msg.value);
 
-        withdrawPayment(msg.value);
+        withdrawPayment();
     }
 
     function maxSupplyNotReached(uint amount) internal view returns (bool) {
         return amount + totalSupply() <= maxSupply;
     }
 
-    function withdrawPayment(uint _value) public internal {
-        (bool sent, bytes memory data) = payable(owner()).call{value: _value}("");
+    function withdrawPayment() internal {
+        (bool sent, bytes memory data) = payable(owner()).call{value: msg.value}("");
         require(sent, "Failed to send Ether");
     }
 }
