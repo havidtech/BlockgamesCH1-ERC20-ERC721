@@ -26,7 +26,7 @@ contract BCH1SNft is ERC721URIStorage{
         _mint(receiver, newItemId);
 
         // Set tokenURI
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "',name,'"', '"description":  "',description,'"', '"image": "', imageUrl, '"}'))));
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "',name,'",', '"description":  "',description,'",', '"image": "', imageUrl, '"}'))));
         tokenIdToURI[newItemId] = string(abi.encodePacked('data:application/json;base64,', json));
 
         return newItemId;
